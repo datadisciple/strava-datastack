@@ -1,4 +1,4 @@
-# ignore secrets, virtual environments and typical python compilation artifacts
+# ignore secrets, virtual environments, and typical python compilation artifacts
 secrets.toml
 .venv/
 
@@ -8,6 +8,12 @@ secrets.toml
 **/*.py[cod]
 **/*$py.class
 
+# ignore logs
+*.log
+
 # ignore duckdb
 *.duckdb
 *.wal
+
+# ignore misc
+.DS_Store
