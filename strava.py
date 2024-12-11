@@ -116,13 +116,17 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
     load_from_date = (
         pendulum.parse(start_date).to_iso8601_string()
         if start_date
-        else pendulum.today().subtract(days=30).to_iso8601_string()
+        # Get the last value from loaded metadata. If it does not exist, use 30 days ago.
+        else dlt.current.source_state().setdefault(
+                "last_value",
+                pendulum.today().subtract(days=30).to_iso8601_string()
+        )
     )
 
     load_until_date = (
         pendulum.parse(end_date).to_iso8601_string()
         if end_date
-        else pendulum.today().to_iso8601_string()
+        else None
     )
 
     # Creates a REST API configuration for the Strava API
@@ -141,7 +145,9 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
         # The default configuration for all resources and their endpoints
         "resource_defaults": {
             "primary_key": "id",
-            "write_disposition": "replace", # Strava activities don't have a concept of updated_at or a similar field to make use of merge strategy
+            # Note: Strava activities don't have a concept of updated_at or a similar field
+            # so just deleting+inserting the most recently extracted record
+            "write_disposition": "merge",
             "endpoint": {
                 "params": {
                     "per_page": 200, # default for strava; max is 200
@@ -175,10 +181,10 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
                         "cursor_path": "start_date",
                         "initial_value": load_from_date,
                         "end_value": load_until_date,
-                        "convert": lambda timestamp_str: int(pendulum.parse(timestamp_str).timestamp()), # converts date string to epoch time
+                        "convert": lambda timestamp_str: None if timestamp_str is None else int(pendulum.parse(timestamp_str).timestamp()), # converts date string to epoch time
                     },
                 },
-            },
+            },            
             # The following is an example of a resource that uses
             # a parent resource (`activities`) to get the `activity_id`
             # and include it in the endpoint path:
