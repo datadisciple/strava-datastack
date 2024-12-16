@@ -10,9 +10,7 @@ from dlt.sources.helpers.requests import Request
 from dlt.common.pendulum import pendulum
 from dlt.sources.rest_api import (
     RESTAPIConfig,
-    check_connection,
     rest_api_resources,
-    rest_api_source,
 )
 
 # Configure the root logger
@@ -52,8 +50,8 @@ def auth_strava():
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run the DLT pipeline.")
-    parser.add_argument("--start-date", type=str, default=None, help="Specify the start date for loading data (e.g. '2022-01-01')")
-    parser.add_argument("--end-date", type=str, default=None, help="Specify the end date for loading data (e.g. '2022-12-31)")
+    parser.add_argument("--start-date", type=str, default=None, help="Specify the start date >= for loading data (e.g. '2024-01-01')")
+    parser.add_argument("--end-date", type=str, default=None, help="Specify the end date < for loading data (e.g. '2024-07-01')")
     return parser.parse_args()
 
 class SharedRateLimiter:
@@ -79,6 +77,11 @@ class SharedRateLimiter:
         self.start_time = datetime.now()
     
     def loading_bar(self, sleep_time):
+        """
+        Loading bar to track and provide a visual of sleep time.
+
+        When the "loading" completes, the next batch of requests will be made.
+        """
         print("Rate limit reached. Waiting...")
         self.print_request_count()
         with tqdm(total=int(sleep_time), desc="Sleeping", unit="s", ncols=80, colour='blue', bar_format="{l_bar}{bar}| {remaining} seconds remaining") as pbar:
@@ -152,22 +155,9 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
                 "params": {
                     "per_page": 200, # default for strava; max is 200
                 },
-                # "paginator": {
-                #     "type": "json_link",
-                #     "next_url_path": "pagination.next",
-                # },
             },
         },
         "resources": [
-            # This is a simple resource definition,
-            # that uses the endpoint path as a resource name:
-            # "pulls",
-            # Alternatively, you can define the endpoint as a dictionary
-            # {
-            #     "name": "pulls", # <- Name of the resource
-            #     "endpoint": "pulls",  # <- This is the endpoint path
-            # }
-            # Or use a more detailed configuration:
             {
                 "name": "activities",
                 "primary_key": "id",
@@ -230,7 +220,6 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
             {
                 "name": "activity_zones",
                 "primary_key": ["_activities_id", "type"], # _activites_id comes from the parent activity; see include_from_parent
-                #"max_table_nesting": 0, # the data field is an array, and this tells dlt not to flatten it out into another table (e.g. activity_streams__data); default is 1000
                 "endpoint": {
                     "path": "activities/{activity_id}/zones",
                     "response_actions": [
