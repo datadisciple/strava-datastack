@@ -184,7 +184,8 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
                         "convert": lambda timestamp_str: None if timestamp_str is None else int(pendulum.parse(timestamp_str).timestamp()), # converts date string to epoch time
                     },
                 },
-            },            
+            },       
+
             # The following is an example of a resource that uses
             # a parent resource (`activities`) to get the `activity_id`
             # and include it in the endpoint path:
@@ -224,7 +225,34 @@ def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = No
                 # in the child data. The field name in the child data
                 # will be called `_activities_id` (_{resource_name}_{field_name})
                 "include_from_parent": ["id"],
-            }
+            },
+
+            {
+                "name": "activity_zones",
+                "primary_key": ["_activities_id", "type"], # _activites_id comes from the parent activity; see include_from_parent
+                #"max_table_nesting": 0, # the data field is an array, and this tells dlt not to flatten it out into another table (e.g. activity_streams__data); default is 1000
+                "endpoint": {
+                    "path": "activities/{activity_id}/zones",
+                    "response_actions": [
+                        {"status_code": 404, "content": "Not Found", "action": "ignore"},
+                    ],
+                    "paginator": RateLimitedPageNumberPaginator(
+                            rate_limiter=shared_rate_limiter,
+                            base_page=1,
+                            total_path=None,
+                            maximum_page=1,
+                            resource_name="activity_zones"
+                        ),
+                    "params": {
+                        "activity_id": {
+                            "type": "resolve",
+                            "resource": "activities",
+                            "field": "id",
+                        }
+                    },
+                },
+                "include_from_parent": ["id"],
+            },
         ],
     }  
 
