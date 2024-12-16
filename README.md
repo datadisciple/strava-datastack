@@ -90,7 +90,59 @@ refresh_token = "<your_refresh_token>"
 
 ## Usage
 ### `dlt`
-With crendentials defined, the `strava.py` dlt pipeline can be run via:
+With crendentials defined, the strava datastack dlt pipeline can be run via:
 ```python
 python strava.py
 ```
+By default, this will just load the last 30 days of data.<br>
+>This is done as Strava limits read requests to 1000/day. Depending on how many years of Strava data you have / number of total activities, you may need to break up your initial historical load across multiple days. It's recommended to start with a few months at first to get a sense for how many requests that is. Fair warning: if your timespan is too large, and you hit the daily request limit, the pipeline will error and you will need to retry loading all that data (modified with a smaller time window) the following day.
+
+#### Historical loads & backfills
+To complete a larger, historical load, or run a backfill, you can pass in a `--start-date` and `--end-date`.
+
+Initial load with data starting from January 2024\*
+```python
+python strava.py --start-date='2024-01-01'
+```
+<br>
+
+Backfill data starting from January 2024 up until July 2024
+```python
+python strava.py --start-date='2024-01-01' --end-date='2024-07-01'
+```
+
+*\***Note**: if you have already run the pipeline once, you will have a `last_value` saved in your state, and you will need to provide an `--end-date` to temporarily override this (if you don't, your pipeline will think it is already up to date and not properly backfill)*
+
+You can check this stored `last_value` at any time by making use of the `-v` flag:
+```bash
+dlt pipeline -v strava_datastack info
+```
+
+An example of the relevant output as it relates to `last_value`:
+```json
+sources:
+{
+  "strava": {
+    "resources": {
+      "activities": {
+        "incremental": {
+          "start_date": {
+            "initial_value": "2024-11-16T00:00:00Z",
+            "last_value": "2024-12-15T20:48:45Z",
+            "unique_hashes": [
+              "k3Za3tV8zvNDwCyexCJQ"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+
+Local state:
+first_run: False
+_last_extracted_at: 2024-12-16 05:00:59.894989+00:00
+_last_extracted_hash: QeJ5iEmeeGmB3zs5XxaM1oRvcARLpgsmifRxmxj84Og=
+```
+
+ 
