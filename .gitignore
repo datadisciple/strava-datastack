@@ -2,11 +2,15 @@
 secrets.toml
 .venv/
 
-# ignore basic python artifacts
+# ignore python generated artifacts
 .env
 **/__pycache__/
 **/*.py[cod]
 **/*$py.class
+build/
+dist/
+wheels/
+*.egg-info
 
 # ignore logs
 *.log
