@@ -8,6 +8,12 @@ strava_transform:
   outputs:
     dev:
       type: duckdb
+      schema: dbt_sandbox
+      threads: 1
+      path: "../strava_datastack.duckdb"
+    
+    prod:
+      type: duckdb
       schema: analytics
       threads: 1
       path: "../strava_datastack.duckdb"
