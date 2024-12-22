@@ -1,0 +1,39 @@
+sources:
+  - name: strava
+    description: Raw strava data loaded by by dlt
+    database: strava_datastack
+    schema: strava
+    tables:
+      - name: activities
+        description: One row per strava activity recorded
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+      - name: activity_streams
+        description: >
+          One row per activity per type of stream (time, velocity, distance, power, etc.).
+          A stream is an array with 1 element per unit of time (refer to time stream).
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - _activities_id
+                - type
+        columns:
+          - name: _activities_id
+            tests:
+              - not_null
+          - name: type
+            description: Identifies the type of stream
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['time', 'distance', 'altitude', 'velocity_smooth', 'heartrate', 'cadence', 'watts', 'temp', 'moving', 'grade_smooth']
+          - name: data
+            description: Array containing the data of the stream
+            tests:
+              - not_null
+
+      - name: activity_zones
