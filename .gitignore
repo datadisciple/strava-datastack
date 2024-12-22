@@ -19,5 +19,10 @@ wheels/
 *.duckdb
 *.wal
 
+# ignore dbt
+transform/target/
+transform/dbt_packages/
+transform/logs/
+
 # ignore misc
 .DS_Store
