@@ -25,8 +25,13 @@ WIP project to visualize strava data using open source tooling
 ## Setup
 Install required dependencies:
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
+*[uv](https://github.com/astral-sh/uv) is being used as the preferred package manager for this project; if you are unfamiliar with `uv`:*
+  - `uv sync` = `poetry install`
+  - `uv run my_script.py` = `poetry run my_script.py` = `source .venv/bin/activate && python my_script.py`
+  - `uv run dlt --help` = `source .venv/bin/activate && dlt --help`
+
 ### Strava Auth
 #### Create your own [Strava API Application](https://www.strava.com/settings/api)
 This is necessary to generate the credentials (e.g. `client_id`, `client_secret`, etc.) you will supply to the strava resource in `strava.py`. Don't worry, creating an application is just a few clicks.
@@ -91,8 +96,8 @@ refresh_token = "<your_refresh_token>"
 ## Usage
 ### `dlt`
 With crendentials defined, the strava datastack dlt pipeline can be run via:
-```python
-python strava.py
+```bash
+uv run strava.py
 ```
 By default, this will just load the last 30 days of data.<br>
 >This is done as Strava limits read requests to 1000/day. Depending on how many years of Strava data you have / number of total activities, you may need to break up your initial historical load across multiple days. It's recommended to start with a few months at first to get a sense for how many requests that is. Fair warning: if your timespan is too large, and you hit the daily request limit, the pipeline will error and you will need to retry loading all that data (modified with a smaller time window) the following day.
@@ -101,21 +106,21 @@ By default, this will just load the last 30 days of data.<br>
 To complete a larger, historical load, or run a backfill, you can pass in a `--start-date` and `--end-date`.
 
 Initial load with data starting from January 2024\*
-```python
-python strava.py --start-date='2024-01-01'
+```bash
+uv run strava.py --start-date='2024-01-01'
 ```
 <br>
 
 Backfill data starting from January 2024 up until July 2024
-```python
-python strava.py --start-date='2024-01-01' --end-date='2024-07-01'
+```bash
+uv run strava.py --start-date='2024-01-01' --end-date='2024-07-01'
 ```
 
 *\***Note**: if you have already run the pipeline once, you will have a `last_value` saved in your state, and you will need to provide an `--end-date` to temporarily override this (if you don't, your pipeline will think it is already up to date and not properly backfill)*
 
 You can check this stored `last_value` at any time by making use of the `-v` flag:
 ```bash
-dlt pipeline -v strava_datastack info
+uv run dlt pipeline -v strava_datastack info
 ```
 
 An example of the relevant output as it relates to `last_value`:
