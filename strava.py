@@ -1,17 +1,18 @@
-from typing import Any
+# Standard Library Imports
+import argparse
+import logging
+import time
 from datetime import datetime, timedelta
-from tqdm import tqdm
-import argparse, logging, time
+from typing import Any
 
+# Third-Party Imports
 import dlt
 from dlt.sources.helpers.rest_client.auth import OAuth2ClientCredentials
 from dlt.sources.helpers.rest_client.paginators import PageNumberPaginator
 from dlt.sources.helpers.requests import Request
 from dlt.common.pendulum import pendulum
-from dlt.sources.rest_api import (
-    RESTAPIConfig,
-    rest_api_resources,
-)
+from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
+from tqdm import tqdm
 
 # Configure the root logger
 logging.basicConfig(
