@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional
+from typing import Any
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import argparse, logging, time
@@ -25,7 +25,7 @@ logging.basicConfig(
 logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
 class OAuth2ClientCredentialsHTTPRefresh(OAuth2ClientCredentials):
-    def build_access_token_request(self) -> Dict[str, Any]:
+    def build_access_token_request(self) -> dict[str, Any]:
         # Refresh token request doesn't require authentication (or base64 encoding)
         return {
             "headers": {
@@ -114,7 +114,7 @@ shared_rate_limiter = SharedRateLimiter(
 )
 
 @dlt.source(name="strava")
-def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = None):
+def strava_source(start_date: str | None = None, end_date: str | None = None):
     # Set load_from_date based on whether or not a --start-date param was passed in
     load_from_date = (
         pendulum.parse(start_date).to_iso8601_string()
