@@ -1,17 +1,18 @@
-from typing import Dict, Any, Optional
+# Standard Library Imports
+import argparse
+import logging
+import time
 from datetime import datetime, timedelta
-from tqdm import tqdm
-import argparse, logging, time
+from typing import Any
 
+# Third-Party Imports
 import dlt
 from dlt.sources.helpers.rest_client.auth import OAuth2ClientCredentials
 from dlt.sources.helpers.rest_client.paginators import PageNumberPaginator
 from dlt.sources.helpers.requests import Request
 from dlt.common.pendulum import pendulum
-from dlt.sources.rest_api import (
-    RESTAPIConfig,
-    rest_api_resources,
-)
+from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
+from tqdm import tqdm
 
 # Configure the root logger
 logging.basicConfig(
@@ -25,7 +26,7 @@ logging.basicConfig(
 logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
 class OAuth2ClientCredentialsHTTPRefresh(OAuth2ClientCredentials):
-    def build_access_token_request(self) -> Dict[str, Any]:
+    def build_access_token_request(self) -> dict[str, Any]:
         # Refresh token request doesn't require authentication (or base64 encoding)
         return {
             "headers": {
@@ -114,7 +115,7 @@ shared_rate_limiter = SharedRateLimiter(
 )
 
 @dlt.source(name="strava")
-def strava_source(start_date: Optional[str] = None, end_date: Optional[str] = None):
+def strava_source(start_date: str | None = None, end_date: str | None = None):
     # Set load_from_date based on whether or not a --start-date param was passed in
     load_from_date = (
         pendulum.parse(start_date).to_iso8601_string()
