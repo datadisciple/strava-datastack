@@ -1,0 +1,17 @@
+models:
+  - name: stg_strava_activity_streams
+    description: >
+      One row per activity per type of stream (time, velocity, distance, power, etc.).
+      A stream is an array with 1 element per unit of time (refer to time stream).
+    columns:
+      - name: activity_stream_id
+        tests:
+          - unique
+          - not_null
+
+      - name: activity_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_strava_activities')
+              field: activity_id

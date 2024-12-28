@@ -7,12 +7,8 @@ with source as (
     select
         id as activity_id
         , name
-
-        /* Dates and timestamps */
         , start_date as started_at
         , start_date_local as started_at_local
-
-        /* Properties */
         , achievement_count
         , pr_count
         , athlete__resource_state as athlete_resource_state
