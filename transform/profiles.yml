@@ -10,10 +10,10 @@ strava_transform:
       type: duckdb
       schema: dbt_sandbox
       threads: 1
-      path: "../strava_datastack.duckdb"
+      path: "{{ env_var('DUCKDB_PATH') }}"
     
     prod:
       type: duckdb
       schema: analytics
       threads: 1
-      path: "../strava_datastack.duckdb"
+      path: "{{ env_var('DUCKDB_PATH') }}"
