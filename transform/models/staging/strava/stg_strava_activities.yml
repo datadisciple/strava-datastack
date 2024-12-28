@@ -10,6 +10,8 @@ models:
 
       - name: athlete__id
         description: "The identifier of the athlete."
+        tests:
+          - not_null
 
       - name: external_id
         description: "An external identifier provided at upload time."
@@ -22,63 +24,116 @@ models:
 
       - name: upload_id
         description: "The unique identifier of the upload associated with this activity."
-        test:
+        tests:
           - unique
 
       - name: started_at
         description: "The UTC start time of the activity."
+        tests:
+          - not_null
 
       - name: started_at_local
         description: "The local start time of the activity."
+        tests:
+          - not_null
 
       - name: is_commute
         description: "Indicates if the activity was a commute."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: is_device_watts
         description: "Indicates if the watts recorded are from a dedicated recording device (as opposed to a Strava calculated estimate)."
+        tests:
+          - accepted_values:
+              values: [true, false]
 
       - name: is_flagged
         description: "Indicates if the activity has been flagged by Strava."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: is_friends_activity
         description: >
           Indicates if activity is sourced from another athlete/friend who tagged you in their activity.
           This comes from the  "With someone who didn't record? -> Add Friends" feature on an activity.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: has_heartrate
         description: "Indicates if heart rate data is available for the activity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: has_display_hide_heartrate_option
         description: "Indicates if the activity hides heart rate display options."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
         
       - name: has_heartrate_hidden
         description: "Indicates if the activity opted out of heart rate sharing."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
       
       - name: has_kudoed
         description: "Indicates if you have self-kudoed the activity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: is_manual
         description: "Indicates if the activity was manually entered."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: is_private
         description: "Indicates if the activity is private."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       - name: is_trainer
         description: "Indicates if the activity was performed on a trainer."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
       # Properties
       - name: name
         description: "The name assigned to the activity."
+        tests:
+          - not_null
 
       - name: achievement_count
         description: >
           The number of achievements earned during the activity.
           These represent the medals achieved during the activity.
+        tests:
+          - not_null
       
       - name: pr_count
         description: 
           The number of personal records during the activity.
           These represent the gold medals achieved during the activity.
+        tests:
+          - not_null
       
       - name: athlete_resource_state
         description: >
@@ -89,6 +144,8 @@ models:
           The number of athletes involved in the activity as identified by Strava.
           For instance, if you rode with two friends who also recorded Strava activities,
           this will be 2.
+        tests:
+          - not_null
       
       - name: average_cadence
         description: "The average cadence during the activity, if applicable."
@@ -166,12 +223,16 @@ models:
 
       - name: kudos_count
         description: "The number of kudos received for the activity."
+        tests:
+          - not_null
 
       - name: location_city
         description: "The city where the activity took place."
 
       - name: location_country
         description: "The country where the activity took place."
+        tests:
+          - not_null
 
       - name: location_state
         description: "The state or region where the activity took place."
@@ -187,11 +248,15 @@ models:
           The number of photos added to the activity upload.
           For activities that are synced through another service (e.g. Garmin)
           and then have photos added "after the fact" by editing the activity, this will be 0.
+        tests:
+          - not_null
 
       - name: photo_count
         description: >
           The total number of photos uploaded for the activity.
           Includes the photos that were added after the initial upload.
+        tests:
+          - not_null
 
       - name: resource_state
         description: "The resource state of the activity object."
@@ -200,24 +265,29 @@ models:
         description: >
           The type of activity in PascalCase.
           (e.g. Run, Ride, Walk, etc.)
+        tests:
+          - not_null
 
       - name: sport_type
         description: >
           The "sport" type of the activity in PascalCase.
           This is more specific than the general, `type` (i.e. a type can have multiple sport types).
           (e.g. Ride, MountainBikeRide, GravelRide, etc.)
+        tests:
+          - not_null
       
       - name: suffer_score
         description: "A Strava measure of the activity's intensity."
 
       - name: timezone
         description: "The timezone in which the activity was recorded."
+        tests:
+          - not_null
       
       - name: utc_offset_seconds
         description: "The offset from UTC time, in seconds."
-      
-      - name: photo_count
-        description: "The total number of photos uploaded for the activity."
+        tests:
+          - not_null
       
       - name: upload_id_str
         description: "The unique identifier of the upload in string format."
