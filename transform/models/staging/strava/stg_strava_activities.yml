@@ -1,0 +1,248 @@
+models:
+  - name: stg_strava_activities
+    description: "Detailed information about a Strava activity."
+    columns:
+      - name: activity_id
+        description: "The unique identifier of the activity."
+        tests:
+          - unique
+          - not_null
+
+      - name: athlete__id
+        description: "The identifier of the athlete."
+
+      - name: external_id
+        description: "An external identifier provided at upload time."
+
+      - name: gear_id
+        description: "The identifier of the gear used during the activity."
+
+      - name: map_id
+        description: "The unique identifier of the activity's map."
+
+      - name: upload_id
+        description: "The unique identifier of the upload associated with this activity."
+        test:
+          - unique
+
+      - name: started_at
+        description: "The UTC start time of the activity."
+
+      - name: started_at_local
+        description: "The local start time of the activity."
+
+      - name: is_commute
+        description: "Indicates if the activity was a commute."
+
+      - name: is_device_watts
+        description: "Indicates if the watts recorded are from a dedicated recording device (as opposed to a Strava calculated estimate)."
+
+      - name: is_flagged
+        description: "Indicates if the activity has been flagged by Strava."
+
+      - name: is_friends_activity
+        description: >
+          Indicates if activity is sourced from another athlete/friend who tagged you in their activity.
+          This comes from the  "With someone who didn't record? -> Add Friends" feature on an activity.
+
+      - name: has_heartrate
+        description: "Indicates if heart rate data is available for the activity."
+
+      - name: has_display_hide_heartrate_option
+        description: "Indicates if the activity hides heart rate display options."
+        
+      - name: has_heartrate_hidden
+        description: "Indicates if the activity opted out of heart rate sharing."
+      
+      - name: has_kudoed
+        description: "Indicates if you have self-kudoed the activity."
+
+      - name: is_manual
+        description: "Indicates if the activity was manually entered."
+
+      - name: is_private
+        description: "Indicates if the activity is private."
+
+      - name: is_trainer
+        description: "Indicates if the activity was performed on a trainer."
+
+      # Properties
+      - name: name
+        description: "The name assigned to the activity."
+
+      - name: achievement_count
+        description: >
+          The number of achievements earned during the activity.
+          These represent the medals achieved during the activity.
+      
+      - name: pr_count
+        description: 
+          The number of personal records during the activity.
+          These represent the gold medals achieved during the activity.
+      
+      - name: athlete_resource_state
+        description: >
+          Not sure what this is, but value always seems to be 1.
+
+      - name: athlete_count
+        description: 
+          The number of athletes involved in the activity as identified by Strava.
+          For instance, if you rode with two friends who also recorded Strava activities,
+          this will be 2.
+      
+      - name: average_cadence
+        description: "The average cadence during the activity, if applicable."
+      
+      - name: hr_avg
+        description: "The average heart rate during the activity, in beats per minute."
+      
+      - name: hr_max
+        description: "The maximum heart rate achieved during the activity, in beats per minute."
+      
+      - name: speed_avg
+        description: "The average speed during the activity, in miles per hour (mph)."
+      
+      - name: speed_max
+        description: "The maximum speed achieved during the activity, in miles per hour (mph)."
+
+      - name: speed_avg_metric
+        description: "The average speed during the activity, in kilometers per hour (kph)."
+      
+      - name: speed_max_metric
+        description: "The maximum speed achieved during the activity, in kilometers per hour (kph)."
+      
+      - name: average_watts
+        description: "The average power output during the activity, in watts (W)."
+      
+      - name: weighted_average_watts
+        description: >
+          The weighted average power during the activity.
+          This is Strava's version of "normalized power".
+      
+      - name: watts_max
+        description: "The maximum power output during the activity, in watts (W)."
+
+      - name: temperature_avg
+        description: "The average temperature during the activity, in degrees Fahrenheit (F)."
+      
+      - name: temperature_avg_metric
+        description: "The average temperature during the activity, in degrees Celsius (C)."
+      
+      - name: comment_count
+        description: "The number of comments on the activity."
+
+      - name: distance
+        description: "The total distance covered during the activity, in miles (mi)."
+
+      - name: distance_metric
+        description: "The total distance covered during the activity, in meters (m)."
+      
+      - name: elapsed_seconds
+        description: "The total elapsed time of the activity, in seconds."
+      
+      - name: moving_seconds
+        description: "The total moving time of the activity, in seconds."
+
+      - name: elevation_gain
+        description: "The total elevation gain during the activity, in feet."
+      
+      - name: elevation_min
+        description: "The lowest elevation reached during the activity, in feet (ft)."
+      
+      - name: elevation_max
+        description: "The highest elevation reached during the activity, in feet (ft)."
+
+      - name: elevation_min_metric
+        description: "The lowest elevation reached during the activity, in meters (m)."
+      
+      - name: elevation_max_metric
+        description: "The highest elevation reached during the activity, in meters (m)."
+     
+      - name: kilojoules
+        description: "The total work done during the activity, in kilojoules (kJ)."
+      
+      - name: calories_burned
+        description: "The calories burned during the activity, in food calories (kcal)."
+
+      - name: kudos_count
+        description: "The number of kudos received for the activity."
+
+      - name: location_city
+        description: "The city where the activity took place."
+
+      - name: location_country
+        description: "The country where the activity took place."
+
+      - name: location_state
+        description: "The state or region where the activity took place."
+      
+      - name: map_resource_state
+        description: "The resource state of the map object."
+
+      - name: map_summary_polyline
+        description: "A summary representation of the route for the activity."
+
+      - name: photo_count_at_upload
+        description: >
+          The number of photos added to the activity upload.
+          For activities that are synced through another service (e.g. Garmin)
+          and then have photos added "after the fact" by editing the activity, this will be 0.
+
+      - name: photo_count
+        description: >
+          The total number of photos uploaded for the activity.
+          Includes the photos that were added after the initial upload.
+
+      - name: resource_state
+        description: "The resource state of the activity object."
+
+      - name: type
+        description: >
+          The type of activity in PascalCase.
+          (e.g. Run, Ride, Walk, etc.)
+
+      - name: sport_type
+        description: >
+          The "sport" type of the activity in PascalCase.
+          This is more specific than the general, `type` (i.e. a type can have multiple sport types).
+          (e.g. Ride, MountainBikeRide, GravelRide, etc.)
+      
+      - name: suffer_score
+        description: "A Strava measure of the activity's intensity."
+
+      - name: timezone
+        description: "The timezone in which the activity was recorded."
+      
+      - name: utc_offset_seconds
+        description: "The offset from UTC time, in seconds."
+      
+      - name: photo_count
+        description: "The total number of photos uploaded for the activity."
+      
+      - name: upload_id_str
+        description: "The unique identifier of the upload in string format."
+
+      - name: visibility
+        description: "The visibility level of the activity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['everyone', 'followers_only', 'only_me']
+
+      - name: workout_type
+        description: >
+          Further describes the type of workout in the activity
+          (e.g. Race, Long Run, Workout)
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Race', 'Long Run', 'Workout', 'None']
+              config:
+                severity: warn
+      
+      - name: workout_type_raw
+        description: >
+          Strava's raw integer identifier for the workout_type
+          (1 = Running Race, 11 = Bike Race, 2 = Long Run, 12 = Bike Workout, etc.).
+          This is decoded in `workout_type`.
+
