@@ -5,35 +5,14 @@ with source as (
 
 , renamed as (
     select
-        /* Primary Key */
         id as activity_id
-
-        /* Foreign Keys */
-        , athlete__id
-        , external_id
-        , gear_id
-        , map__id as map_id
-        , upload_id
+        , name
 
         /* Dates and timestamps */
         , start_date as started_at
         , start_date_local as started_at_local
 
-        /* Flags */
-        , commute as is_commute
-        , device_watts as is_device_watts
-        , flagged as is_flagged
-        , from_accepted_tag as is_friends_activity
-        , has_heartrate as has_heartrate
-        , display_hide_heartrate_option as has_display_hide_heartrate_option
-        , heartrate_opt_out as has_heartrate_hidden
-        , has_kudoed
-        , manual as is_manual
-        , private as is_private
-        , trainer as is_trainer
-
         /* Properties */
-        , name
         , achievement_count
         , pr_count
         , athlete__resource_state as athlete_resource_state
@@ -96,7 +75,24 @@ with source as (
         end as workout_type
         , workout_type as workout_type_raw
 
-        /* Metadata */
+        , commute as is_commute
+        , device_watts as is_device_watts
+        , flagged as is_flagged
+        , from_accepted_tag as is_friends_activity
+        , has_heartrate as has_heartrate
+        , display_hide_heartrate_option as has_display_hide_heartrate_option
+        , heartrate_opt_out as has_heartrate_hidden
+        , has_kudoed
+        , manual as is_manual
+        , private as is_private
+        , trainer as is_trainer
+
+        , athlete__id
+        , external_id
+        , gear_id
+        , map__id as map_id
+        , upload_id
+
         , _dlt_id
         , _dlt_load_id
 

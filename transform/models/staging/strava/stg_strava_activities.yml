@@ -7,25 +7,11 @@ models:
         tests:
           - unique
           - not_null
-
-      - name: athlete__id
-        description: "The identifier of the athlete."
+      
+      - name: name
+        description: "The name assigned to the activity."
         tests:
           - not_null
-
-      - name: external_id
-        description: "An external identifier provided at upload time."
-
-      - name: gear_id
-        description: "The identifier of the gear used during the activity."
-
-      - name: map_id
-        description: "The unique identifier of the activity's map."
-
-      - name: upload_id
-        description: "The unique identifier of the upload associated with this activity."
-        tests:
-          - unique
 
       - name: started_at
         description: "The UTC start time of the activity."
@@ -34,90 +20,6 @@ models:
 
       - name: started_at_local
         description: "The local start time of the activity."
-        tests:
-          - not_null
-
-      - name: is_commute
-        description: "Indicates if the activity was a commute."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_device_watts
-        description: "Indicates if the watts recorded are from a dedicated recording device (as opposed to a Strava calculated estimate)."
-        tests:
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_flagged
-        description: "Indicates if the activity has been flagged by Strava."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_friends_activity
-        description: >
-          Indicates if activity is sourced from another athlete/friend who tagged you in their activity.
-          This comes from the  "With someone who didn't record? -> Add Friends" feature on an activity.
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: has_heartrate
-        description: "Indicates if heart rate data is available for the activity."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: has_display_hide_heartrate_option
-        description: "Indicates if the activity hides heart rate display options."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-        
-      - name: has_heartrate_hidden
-        description: "Indicates if the activity opted out of heart rate sharing."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-      
-      - name: has_kudoed
-        description: "Indicates if you have self-kudoed the activity."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_manual
-        description: "Indicates if the activity was manually entered."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_private
-        description: "Indicates if the activity is private."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      - name: is_trainer
-        description: "Indicates if the activity was performed on a trainer."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [true, false]
-
-      # Properties
-      - name: name
-        description: "The name assigned to the activity."
         tests:
           - not_null
 
@@ -315,4 +217,110 @@ models:
           Strava's raw integer identifier for the workout_type
           (1 = Running Race, 11 = Bike Race, 2 = Long Run, 12 = Bike Workout, etc.).
           This is decoded in `workout_type`.
+      
+      - name: is_commute
+        description: "Indicates if the activity was a commute."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_device_watts
+        description: "Indicates if the watts recorded are from a dedicated recording device (as opposed to a Strava calculated estimate)."
+        tests:
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_flagged
+        description: "Indicates if the activity has been flagged by Strava."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_friends_activity
+        description: >
+          Indicates if activity is sourced from another athlete/friend who tagged you in their activity.
+          This comes from the  "With someone who didn't record? -> Add Friends" feature on an activity.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: has_heartrate
+        description: "Indicates if heart rate data is available for the activity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: has_display_hide_heartrate_option
+        description: "Indicates if the activity hides heart rate display options."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+        
+      - name: has_heartrate_hidden
+        description: "Indicates if the activity opted out of heart rate sharing."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: has_kudoed
+        description: "Indicates if you have self-kudoed the activity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_manual
+        description: "Indicates if the activity was manually entered."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_private
+        description: "Indicates if the activity is private."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_trainer
+        description: "Indicates if the activity was performed on a trainer."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: athlete__id
+        description: "The identifier of the athlete."
+        tests:
+          - not_null
+
+      - name: external_id
+        description: "An external identifier provided at upload time."
+
+      - name: gear_id
+        description: "The identifier of the gear used during the activity."
+
+      - name: map_id
+        description: "The unique identifier of the activity's map."
+
+      - name: upload_id
+        description: "The unique identifier of the upload associated with this activity."
+        tests:
+          - unique
+      
+      - name: _dlt_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: _dlt_load_id
+        tests:
+          - not_null
 
