@@ -15,6 +15,9 @@ wheels/
 # ignore logs
 *.log
 
+# ignore vscode
+.vscode/
+
 # ignore duckdb
 *.duckdb
 *.wal
