@@ -75,6 +75,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: device_watts
             data_type: boolean
@@ -82,6 +84,8 @@ sources:
             tests:
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: flagged
             data_type: boolean
@@ -90,6 +94,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: from_accepted_tag
             data_type: boolean
@@ -100,6 +106,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: manual
             data_type: boolean
@@ -108,6 +116,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: private
             data_type: boolean
@@ -116,6 +126,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: trainer
             data_type: boolean
@@ -124,6 +136,8 @@ sources:
               - not_null
               - accepted_values:
                   values: [true, false]
+                  config:
+                    severity: warn
 
           - name: kudos_count
             data_type: big_int
@@ -253,6 +267,8 @@ sources:
               - not_null
               - accepted_values:
                   values: ['everyone', 'followers_only', 'only_me']
+                  config:
+                    severity: warn
 
           - name: workout_type
             data_type: varchar
@@ -314,27 +330,51 @@ sources:
             data_type: varchar
 
       - name: activity_zones
+        description: Data about different zones (e.g., heart rate, power, pace) associated with Strava activities.
         columns:
           - name: score
             data_type: double
+            description: >
+              Appears to be some sort of cumulative effort score based off the type of zone
+              (e.g. a high score for heartrate incdicates a big effort).
+              Pace has a much different scale (max of 10?).
+              Power has no score value.
 
           - name: type
             data_type: varchar
+            description: "The type of zone, such as 'heart_rate' or 'power'."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['heartrate', 'power', 'pace']
+                  config:
+                    severity: warn
 
           - name: resource_state
             data_type: bigint
+            description: "The resource state, indicating the detail level of the data."
 
           - name: sensor_based
             data_type: boolean
+            description: "Whether the zone data was collected using a sensor."
 
           - name: points
             data_type: bigint
+            description: >
+              Thought this might be the number of points (e.g., data samples) recorded,
+              but there are many 0 or null values.
 
           - name: custom_zones
             data_type: boolean
+            description: >
+              Indicates if custom zones are defined for this activity.
+              Custom zones are typically set in the athlete's profile.
 
           - name: _activities_id
             data_type: bigint
+            description: "The identifier for the activity this zone data is associated with."
+            tests:
+              - not_null
 
           - name: _dlt_load_id
             data_type: varchar
@@ -346,18 +386,25 @@ sources:
         columns:
           - name: min
             data_type: bigint
+            description: "Minimum value of a given zone"
 
           - name: max
             data_type: bigint
+            description: "Maximum value of a given zone"
 
           - name: time
             data_type: bigint
+            description: "The amount of time spent in the zone, in seconds."
 
           - name: _dlt_root_id
             data_type: varchar
+            description: >
+              Shared identifier across all zones of a certain type for a given activity.
+              Heartrate zones 1-5 for a given activity will all share the same `_dlt_root_id`.
 
           - name: _dlt_parent_id
             data_type: varchar
+            description: "FK to `_dlt_id` in `strava.activity_zones`."
 
           - name: _dlt_list_idx
             data_type: bigint
