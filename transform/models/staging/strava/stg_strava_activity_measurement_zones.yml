@@ -1,0 +1,35 @@
+models:
+  - name: stg_strava_activity_measurement_zones
+    description: >
+      One row per activity per measurement zone
+      (e.g. heartrate Z1 thru Z5, power Z1 thru Z5, pace Z1 thru Z5).
+    columns:
+      - name: activity_measurement_zone_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: min
+        description: |
+          Heartrate = bpm
+          Power = watts
+          Pace = m/s
+        tests:
+          - not_null
+      
+      - name: max
+        description: |
+          Heartrate = bpm
+          Power = watts
+          Pace = m/s
+        tests:
+          - not_null
+      
+      - name: time
+        description: "Time in zone in seconds."
+        tests:
+          - not_null
+      
+      - name: measurement_id
+        tests:
+          - not_null
