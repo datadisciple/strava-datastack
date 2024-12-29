@@ -8,8 +8,265 @@ sources:
         description: One row per strava activity recorded
         columns:
           - name: id
+            data_type: bigint
+            description: "The unique identifier of the activity."
             tests:
               - unique
+              - not_null
+          
+          - name: athlete__id
+            data_type: bigint
+            description: "The identifier of the athlete."
+            tests:
+              - not_null
+
+          - name: athlete_count
+            data_type: bigint
+            description: 
+              The number of athletes involved in the activity as identified by Strava.
+              For instance, if you rode with two friends who also recorded Strava activities,
+              this will be 2.
+            tests:
+              - not_null
+          
+          - name: athlete_resource_state
+            data_type: bigint
+
+          - name: average_cadence
+            data_type: double
+            description: "The average cadence during the activity, if applicable."
+          
+          - name: average_watts
+            data_type: double
+            description: "The average power output during the activity, in watts (W)."
+
+          - name: comment_count
+            data_type: bigint
+            description: "The number of comments on the activity."
+
+          - name: distance
+            data_type: double
+            description: "The total distance covered during the activity, in meters (m)."
+          
+          - name: total_elevation_gain
+            data_type: double
+            description: "The total elevation gain during the activity, in meters (m)."
+          
+          - name: elev_high
+            data_type: double
+            description: "The highest elevation reached during the activity, in meters (m)."
+        
+          - name: elev_low
+            data_type: double
+            description: "The lowest elevation reached during the activity, in meters (m)."
+
+          - name: external_id
+            data_type: varchar
+            description: "An external identifier provided at upload time."
+
+          - name: gear_id
+            data_type: varchar
+            description: "The identifier of the gear used during the activity."
+
+          - name: commute
+            data_type: boolean
+            description: "Indicates if the activity was a commute."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: device_watts
+            data_type: boolean
+            description: "Indicates if the watts recorded are from a dedicated recording device (as opposed to a Strava calculated estimate)."
+            tests:
+              - accepted_values:
+                  values: [true, false]
+
+          - name: flagged
+            data_type: boolean
+            description: "Indicates if the activity has been flagged by Strava."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: from_accepted_tag
+            data_type: boolean
+            description: >
+              Indicates if activity is sourced from another athlete/friend who tagged you in their activity.
+              This comes from the  "With someone who didn't record? -> Add Friends" feature on an activity.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: manual
+            data_type: boolean
+            description: "Indicates if the activity was manually entered."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: private
+            data_type: boolean
+            description: "Indicates if the activity is private."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: trainer
+            data_type: boolean
+            description: "Indicates if the activity was performed on a trainer."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [true, false]
+
+          - name: kudos_count
+            data_type: big_int
+            description: "The number of kudos received for the activity."
+            tests:
+              - not_null
+
+          - name: location_city
+            data_type: varchar
+            description: "The city where the activity took place."
+
+          - name: location_country
+            data_type: varchar
+            description: "The country where the activity took place."
+            tests:
+              - not_null
+
+          - name: location_state
+            data_type: varchar
+            description: "The state or region where the activity took place."
+          
+          - name: map__id
+            data_type: varchar
+            description: "The unique identifier of the activity's map."
+
+          - name: map__resource_state
+            data_type: bigint
+            description: "The resource state of the map object."
+
+          - name: map_summary_polyline
+            data_type: varchar
+            description: "A summary representation of the route for the activity."
+
+          - name: moving_time
+            data_type: bigint
+            description: "The total moving time of the activity, in seconds."
+
+          - name: photo_count
+            data_type: bigint
+            description: "Number of photos added to the activity in upload."
+            tests:
+              - not_null
+
+          - name: total_photo_count
+            data_type: bigint
+            description: >
+              The total number of photos added to the activity.
+              Includes those photos that were added in after initial upload via "edit activity".
+            tests:
+              - not_null
+
+          - name: pr_count
+            data_type: bigint
+            description: 
+              The number of personal records during the activity.
+              These represent the gold medals achieved during the activity.
+            tests:
+              - not_null
+
+          - name: resource_state
+            data_type: bigint
+            description: "The resource state of the activity object."
+
+          - name: start_date
+            data_type: timestamp with time zone
+            description: "The UTC start time of the activity."
+            tests:
+              - not_null
+
+          - name: start_date_local
+            data_type: timestamp with time zone
+            description: "The local start time of the activity."
+            tests:
+              - not_null
+
+          - name: sport_type
+            data_type: varchar
+            description: >
+              The "sport" type of the activity in PascalCase.
+              This is more specific than the general, `type` (i.e. a type can have multiple sport types).
+              (e.g. Ride, MountainBikeRide, GravelRide, etc.)
+            tests:
+              - not_null
+          
+          - name: suffer_score
+            data_type: double
+            description: "A Strava measure of the activity's intensity."
+          
+          - name: average_temp
+            data_type: bigint
+            description: "The average temperature during the activity, in degrees Celsius (C)."
+
+          - name: timezone
+            data_type: varchar
+            description: "The timezone in which the activity was recorded."
+            tests:
+              - not_null
+          
+          - name: type
+            data_type: varchar
+            description: >
+              The type of activity in PascalCase.
+              (e.g. Run, Ride, Walk, etc.)
+            tests:
+              - not_null
+
+          - name: upload_id
+            data_type: varchar
+            description: "The unique identifier of the upload associated with this activity."
+            tests:
+              - unique
+
+          - name: upload_id_str
+            data_Type: varchar
+            description: "The unique identifier of the upload in string format."
+
+          - name: utc_offset
+            data_Type: double
+            description: "The offset from UTC time, in seconds."
+            tests:
+              - not_null
+
+          - name: visibility
+            data_type: varchar
+            description: "The visibility level of the activity."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['everyone', 'followers_only', 'only_me']
+
+          - name: workout_type
+            data_type: varchar
+            description: >
+              Strava's raw integer identifier for the workout_type
+              (1 = Running Race, 11 = Bike Race, 2 = Long Run, 12 = Bike Workout, etc.).
+
+          - name: _dlt_id
+            tests:
+              - unique
+              - not_null
+
+          - name: _dlt_load_id
+            tests:
               - not_null
 
       - name: activity_streams
@@ -23,17 +280,93 @@ sources:
                 - type
         columns:
           - name: _activities_id
+            data_type: bigint
             tests:
               - not_null
+          
+          - name: series_type
+            data_type: varchar
+
           - name: type
+            data_type: varchar
             description: Identifies the type of stream
             tests:
               - not_null
               - accepted_values:
                   values: ['time', 'distance', 'altitude', 'velocity_smooth', 'heartrate', 'cadence', 'watts', 'temp', 'moving', 'grade_smooth']
+
           - name: data
-            description: Array containing the data of the stream
+            data_type: json
+            description: JSON array containing the data of the stream
             tests:
               - not_null
+          
+          - name: original_size
+            data_type: bigint
+
+          - name: resolution
+            data_type: varchar
+
+          - name: _dlt_load_id
+            data_type: varchar
+
+          - name: _dlt_id
+            data_type: varchar
 
       - name: activity_zones
+        columns:
+          - name: score
+            data_type: double
+
+          - name: type
+            data_type: varchar
+
+          - name: resource_state
+            data_type: bigint
+
+          - name: sensor_based
+            data_type: boolean
+
+          - name: points
+            data_type: bigint
+
+          - name: custom_zones
+            data_type: boolean
+
+          - name: _activities_id
+            data_type: bigint
+
+          - name: _dlt_load_id
+            data_type: varchar
+
+          - name: _dlt_id
+            data_type: varchar
+    
+      - name: activity_zones__distribution_buckets
+        columns:
+          - name: min
+            data_type: bigint
+
+          - name: max
+            data_type: bigint
+
+          - name: time
+            data_type: bigint
+
+          - name: _dlt_root_id
+            data_type: varchar
+
+          - name: _dlt_parent_id
+            data_type: varchar
+
+          - name: _dlt_list_idx
+            data_type: bigint
+
+          - name: _dlt_id
+            data_type: varchar
+
+          - name: max__v_double
+            data_type: double
+
+          - name: min__v_double
+            data_type: double

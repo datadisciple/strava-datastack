@@ -13,7 +13,7 @@ with source as (
         , pr_count
         , athlete__resource_state as athlete_resource_state
         , athlete_count
-        , average_cadence
+        , average_cadence as cadence_avg
         , average_heartrate as hr_avg
         , max_heartrate as hr_max
         /* Convert m/s to mph */
