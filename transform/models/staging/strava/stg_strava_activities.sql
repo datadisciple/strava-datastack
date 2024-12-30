@@ -22,6 +22,8 @@ with source as (
         /* Convert m/s to kph */
         , average_speed * (1/1000) * 3600 as speed_avg_metric
         , max_speed * (1/1000) * 3600 as speed_max_metric
+        , average_speed as speed_avg_raw
+        , max_speed as speed_max_raw
         , average_watts as power_avg
         , weighted_average_watts as power_weighted_avg
         , max_watts as power_max
@@ -33,6 +35,7 @@ with source as (
         , distance * (1/1609.344) as distance
         /* Convert m to km */
         , distance * (1/1000) as distance_metric
+        , distance as distance_raw
         , elapsed_time as elapsed_seconds
         , moving_time as moving_seconds
         /* Convert m to ft */
@@ -40,6 +43,7 @@ with source as (
         , elev_high * 3.280839895 as elevation_max
         /* Convert m to ft */
         , total_elevation_gain * 3.280839895 as elevation_gain
+        , total_elevation_gain as elevation_gain_metric
         , elev_low as elevation_min_metric
         , elev_high as elevation_max_metric
         , kilojoules
