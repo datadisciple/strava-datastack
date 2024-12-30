@@ -6,6 +6,9 @@ models:
         tests:
           - unique
           - not_null
+      
+      - name: activity_name
+        description: "The name of the activity."
 
       - name: started_at
         description: "The UTC start time of the activity."
@@ -104,6 +107,11 @@ models:
         description: >
           The total number of photos uploaded for the activity.
           Includes the photos that were added after the initial upload.
+      
+      - name: activity_type
+        description: >
+          The type of activity in PascalCase.
+          (e.g. Run, Ride, Walk, etc.)
       
       - name: utc_offset_seconds
         description: "The offset from UTC time, in seconds."

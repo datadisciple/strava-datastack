@@ -1,0 +1,8 @@
+models:
+  - name: fct_activities
+    description: "One row per Strava activity"
+    columns:
+      - name: activity_id
+        tests:
+          - unique
+          - not_null

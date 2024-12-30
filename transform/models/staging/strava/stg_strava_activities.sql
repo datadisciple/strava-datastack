@@ -6,7 +6,7 @@ with source as (
 , renamed as (
     select
         id as activity_id
-        , name
+        , name as activity_name
         , start_date as started_at
         , start_date_local as started_at_local
         , achievement_count
@@ -54,7 +54,7 @@ with source as (
         , photo_count as photo_count_at_upload
         , total_photo_count as photo_count
         , resource_state
-        , type
+        , type as activity_type
         , sport_type
         , suffer_score
         , timezone
@@ -83,7 +83,7 @@ with source as (
         , private as is_private
         , trainer as is_trainer
 
-        , athlete__id
+        , athlete__id as athlete_id
         , external_id
         , gear_id
         , map__id as map_id
