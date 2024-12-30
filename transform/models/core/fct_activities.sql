@@ -26,9 +26,9 @@ with activities as (
         , speed_max
         , speed_avg_metric
         , speed_max_metric
-        , watts_avg
-        , watts_weighted_avg
-        , watts_max
+        , power_avg
+        , power_weighted_avg
+        , power_max
         , temperature_avg
         , temperature_avg_metric
         , elevation_min

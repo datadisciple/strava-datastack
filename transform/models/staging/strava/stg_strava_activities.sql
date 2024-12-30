@@ -22,15 +22,15 @@ with source as (
         /* Convert m/s to kph */
         , average_speed * (1/1000) * 3600 as speed_avg_metric
         , max_speed * (1/1000) * 3600 as speed_max_metric
-        , average_watts as watts_avg
-        , weighted_average_watts as watts_weighted_avg
-        , max_watts as watts_max
+        , average_watts as power_avg
+        , weighted_average_watts as power_weighted_avg
+        , max_watts as power_max
         /* Conver C to F */
         , average_temp * (9/5) + 32 as temperature_avg
         , average_temp as temperature_avg_metric
         , comment_count
         /* Convert m to mi */
-        , distance * (1/1609.344) * 3600 as distance
+        , distance * (1/1609.344) as distance
         /* Convert m to km */
         , distance * (1/1000) as distance_metric
         , elapsed_time as elapsed_seconds

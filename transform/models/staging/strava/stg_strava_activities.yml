@@ -41,15 +41,15 @@ models:
       - name: speed_max_metric
         description: "The maximum speed achieved during the activity, in kilometers per hour (kph)."
       
-      - name: average_watts
+      - name: power_average
         description: "The average power output during the activity, in watts (W)."
       
-      - name: watts_weighted_avg
+      - name: power_weighted_avg
         description: >
           The weighted average power during the activity.
           This is Strava's version of "normalized power".
       
-      - name: watts_max
+      - name: power_max
         description: "The maximum power output during the activity, in watts (W)."
 
       - name: temperature_avg

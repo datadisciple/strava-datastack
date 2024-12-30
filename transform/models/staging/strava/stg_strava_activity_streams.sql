@@ -7,7 +7,15 @@ with source as (
     select
         {{ dbt_utils.generate_surrogate_key(['_activities_id', 'type']) }} as activity_stream_id
         , _activities_id as activity_id
-        , type as stream_type
+        , case type
+            when 'temp' then 'temperature'
+            when 'grade_smooth' then 'grade'
+            when 'velocity_smooth' then 'velocity'
+            when 'moving' then 'is_moving'
+            when 'watts' then 'power'
+            else type
+        end as stream_type
+        , type as stream_type_raw
         , data as stream_json
         , from_json(data, '["int"]') as stream_list
         , series_type
