@@ -1,6 +1,20 @@
+{{
+    config(
+        materialized='incremental'
+        , unique_key='activity_stream_id'
+        , on_schema_change='sync_all_columns'
+    )
+}}
+
 with activity_streams as (
     select *
     from {{ ref('int_activity_streams') }}
+    
+    {% if is_incremental() %}
+
+    where inserted_at > (select max(inserted_at) from {{ this }} )
+
+    {% endif %}
 )
 
 , flattened as (
@@ -13,8 +27,6 @@ with activity_streams as (
         , inserted_at
 
     from activity_streams
-    /* placeholder to allow fast builds until model is incrementalized */
-    where activity_id = 12183022608
 )
 
 , final as (
