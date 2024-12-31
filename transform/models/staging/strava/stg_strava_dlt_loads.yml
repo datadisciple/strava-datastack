@@ -1,0 +1,10 @@
+models:
+  - name: stg_strava_dlt_loads
+    description: >
+      Load info for the strava.py dlt pipeline.
+      One row per dlt load job.
+    columns:
+      - name: _dlt_load_id
+        tests:
+          - unique
+          - not_null

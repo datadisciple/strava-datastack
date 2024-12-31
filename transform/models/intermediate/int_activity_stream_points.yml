@@ -1,0 +1,16 @@
+models:
+  - name: int_activity_stream_points
+    description: "One row per activity stream data point (per type of stream)."
+    columns:
+      - name: activity_stream_point_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: stream_point
+        description: "Singular data point within a stream."
+      
+      - name: stream_index
+        description: "Position of the stream point within the original stream list."
+        tests:
+          - not_null

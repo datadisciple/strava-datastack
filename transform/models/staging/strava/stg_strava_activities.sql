@@ -6,7 +6,7 @@ with source as (
 , renamed as (
     select
         id as activity_id
-        , name
+        , name as activity_name
         , start_date as started_at
         , start_date_local as started_at_local
         , achievement_count
@@ -22,17 +22,20 @@ with source as (
         /* Convert m/s to kph */
         , average_speed * (1/1000) * 3600 as speed_avg_metric
         , max_speed * (1/1000) * 3600 as speed_max_metric
-        , average_watts as watts_avg
-        , weighted_average_watts as watts_weighted_avg
-        , max_watts as watts_max
+        , average_speed as speed_avg_raw
+        , max_speed as speed_max_raw
+        , average_watts as power_avg
+        , weighted_average_watts as power_weighted_avg
+        , max_watts as power_max
         /* Conver C to F */
         , average_temp * (9/5) + 32 as temperature_avg
         , average_temp as temperature_avg_metric
         , comment_count
         /* Convert m to mi */
-        , distance * (1/1609.344) * 3600 as distance
+        , distance * (1/1609.344) as distance
         /* Convert m to km */
         , distance * (1/1000) as distance_metric
+        , distance as distance_raw
         , elapsed_time as elapsed_seconds
         , moving_time as moving_seconds
         /* Convert m to ft */
@@ -40,6 +43,7 @@ with source as (
         , elev_high * 3.280839895 as elevation_max
         /* Convert m to ft */
         , total_elevation_gain * 3.280839895 as elevation_gain
+        , total_elevation_gain as elevation_gain_metric
         , elev_low as elevation_min_metric
         , elev_high as elevation_max_metric
         , kilojoules
@@ -54,7 +58,7 @@ with source as (
         , photo_count as photo_count_at_upload
         , total_photo_count as photo_count
         , resource_state
-        , type
+        , type as activity_type
         , sport_type
         , suffer_score
         , timezone
@@ -83,7 +87,7 @@ with source as (
         , private as is_private
         , trainer as is_trainer
 
-        , athlete__id
+        , athlete__id as athlete_id
         , external_id
         , gear_id
         , map__id as map_id

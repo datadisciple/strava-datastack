@@ -417,3 +417,15 @@ sources:
 
           - name: min__v_double
             data_type: double
+
+      # dlt metadata tables
+      - name: _dlt_loads
+        columns:
+          - name: load_id
+            tests:
+              - unique
+              - not_null
+
+          - name: inserted_at
+            tests:
+              - not_null

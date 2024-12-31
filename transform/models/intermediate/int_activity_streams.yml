@@ -1,0 +1,10 @@
+models:
+  - name: int_activity_streams
+    description: >
+      Strava activity streams data enchanced with dlt inserted_at info
+      to be leveraged in downstream incremental model.
+    columns:
+      - name: activity_stream_id
+        tests:
+          - unique
+          - not_null

@@ -31,5 +31,9 @@ flags:
 
 models:
   strava_transform:
+    core:
+      +materialized: table
+    intermediate:
+      +materialized: table
     staging:
       +materialized: view

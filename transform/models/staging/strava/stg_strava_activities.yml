@@ -6,6 +6,9 @@ models:
         tests:
           - unique
           - not_null
+      
+      - name: activity_name
+        description: "The name of the activity."
 
       - name: started_at
         description: "The UTC start time of the activity."
@@ -38,15 +41,21 @@ models:
       - name: speed_max_metric
         description: "The maximum speed achieved during the activity, in kilometers per hour (kph)."
       
-      - name: average_watts
+      - name: speed_avg_raw
+        description: "The average speed during the activity, in meters per second (m/s)."
+      
+      - name: speed_max_raw
+        description: "The maximum speed achieved during the activity, in meters per second (m/s)."
+      
+      - name: power_average
         description: "The average power output during the activity, in watts (W)."
       
-      - name: watts_weighted_avg
+      - name: power_weighted_avg
         description: >
           The weighted average power during the activity.
           This is Strava's version of "normalized power".
       
-      - name: watts_max
+      - name: power_max
         description: "The maximum power output during the activity, in watts (W)."
 
       - name: temperature_avg
@@ -59,6 +68,9 @@ models:
         description: "The total distance covered during the activity, in miles (mi)."
 
       - name: distance_metric
+        description: "The total distance covered during the activity, in kilometers (km)."
+
+      - name: distance_raw
         description: "The total distance covered during the activity, in meters (m)."
       
       - name: elapsed_seconds
@@ -68,7 +80,10 @@ models:
         description: "The total moving time of the activity, in seconds."
 
       - name: elevation_gain
-        description: "The total elevation gain during the activity, in feet."
+        description: "The total elevation gain during the activity, in feet (ft)."
+      
+      - name: elevation_gain_metric
+        description: "The total elevation gain during the activity, in meters (m)."
       
       - name: elevation_min
         description: "The lowest elevation reached during the activity, in feet (ft)."
@@ -104,6 +119,11 @@ models:
         description: >
           The total number of photos uploaded for the activity.
           Includes the photos that were added after the initial upload.
+      
+      - name: activity_type
+        description: >
+          The type of activity in PascalCase.
+          (e.g. Run, Ride, Walk, etc.)
       
       - name: utc_offset_seconds
         description: "The offset from UTC time, in seconds."

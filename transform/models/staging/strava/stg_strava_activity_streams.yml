@@ -15,3 +15,13 @@ models:
           - relationships:
               to: ref('stg_strava_activities')
               field: activity_id
+      
+      - name: stream_type
+        description: "Renamed identifier for the type of stream"
+        tests:
+          - not_null
+      
+      - name: stream_type_raw
+        description: >
+          Raw identifier for the type of stream
+          (i.e. as it's recorded in Strava).

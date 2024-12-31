@@ -1,0 +1,27 @@
+models:
+  - name: fct_activity_data_points
+    description: >
+      One row per activity data point (Strava records 1 data point per second)
+      where all types of streams (time, power, velocity, etc. ) have been pivoted to their own columns.
+    columns:
+      - name: activity_data_point_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: stream_index
+        tests:
+          - not_null
+      
+      - name: time_delta
+        description: >
+          Calculates the time bewteen stream data points.
+          Ideally, a stream records 1 data point per second, however,
+          this can vary based on the GPS device used (sampling rates can differ across devices),
+          activity type, whether or not "battery saver" mode on the device is enabled, etc.
+        tests:
+          # There are small instances of time_delta = 0 as it's
+          # possible (though rare) for streams to get written twice
+          # (e.g. two rows for an activity where time = 300)
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
