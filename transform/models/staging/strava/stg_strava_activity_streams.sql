@@ -10,7 +10,6 @@ with source as (
         , case type
             when 'temp' then 'temperature'
             when 'grade_smooth' then 'grade'
-            when 'velocity_smooth' then 'velocity'
             when 'moving' then 'is_moving'
             when 'watts' then 'power'
             else type

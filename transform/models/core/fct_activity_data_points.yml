@@ -13,6 +13,52 @@ models:
         tests:
           - not_null
       
+      - name: is_moving
+        description: >
+          Flag to denote whether athlete was moving at this instance of time.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: time
+        tests:
+          - not_null
+      
+      - name: grade
+        description: >
+          The "smoothed" (or whole number) grade provided by Strava.
+          Unable to calculate an actual grade because it would require a finer granularity
+          than meters for altitude (i.e. ascent often happens at a rate of < 1 m/s).
+        tests:
+          - not_null
+      
+      - name: velocity
+        description: >
+          The exact velocity at each stream index calculated via
+          `distance_delta` / `time_delta`.
+        tests:
+          - not_null:
+              config:
+                # it's possible to have an activity with 0 total distance recorded
+                # in this case, the distance at each stream index will be null
+                where: "distance is not null"
+      
+      - name: velocity_smooth
+        description: >
+          The "smoothed" (or whole number) velocity provided by Strava (in meters/second).
+          When the `time_delta` = 1, this is accurate; however, when the `time_delta` > 1
+          (i.e. there are larger time gaps between stream indexes) this is not as accurate
+          as 1 m/s = 2.2mph = 3.6 kph which can result in significant discrepencies
+          between the smoothed and actual values.
+        tests:
+          - not_null
+      
+      - name: distance_delta
+        description: >
+          Calculates the distance between stream points.
+          For use in calcaulting the exact velocity at each stream index.
+      
       - name: time_delta
         description: >
           Calculates the time bewteen stream data points.
