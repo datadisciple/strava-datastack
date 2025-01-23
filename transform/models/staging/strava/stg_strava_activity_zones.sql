@@ -12,11 +12,10 @@ with source as (
         , min__v_double as pace_min
         , max__v_double as pace_max
         , time
-        , _dlt_parent_id as measurement_id
-
+        , _dlt_parent_id as zone_type_id
+        , _dlt_list_idx as zone_index
         , _dlt_root_id
         , _dlt_parent_id
-        , _dlt_list_idx
         , _dlt_id
     
     from source
@@ -27,11 +26,11 @@ with source as (
     select
         coalesce(min, pace_min) as min
         , coalesce(max, pace_max) as max
-        , time
-        , measurement_id
+        , time as zone_seconds
+        , zone_type_id
+        , zone_index
         , _dlt_root_id
         , _dlt_parent_id
-        , _dlt_list_idx
         , _dlt_id
     
     from renamed
@@ -39,7 +38,7 @@ with source as (
 
 , final as (
     select
-        {{ dbt_utils.generate_surrogate_key(['min', 'max', 'measurement_id']) }} as activity_measurement_zone_id
+        {{ dbt_utils.generate_surrogate_key(['min', 'max', 'zone_type_id']) }} as activity_zone_id
         , *
     
     from buckets_coalesced

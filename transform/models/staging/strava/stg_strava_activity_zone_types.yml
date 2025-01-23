@@ -1,0 +1,26 @@
+models:
+  - name: stg_strava_activity_zone_types
+    description: "One row per activity per zone type (heartrate, power, pace)."
+    columns:
+      - name: activity_zone_type_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: is_sensor_based
+        description: >
+          Flag to denote whether the measurement comes from a physical device or is a Strava estimate.
+          For example, in a cycling activity, without a power meter, Strava will attempt to estimate power (this is wildly inaccurate).
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: has_custom_zone_set
+        description: >
+          Flag to denote whether the user had their own custom zones setup when the activity was recorded
+          Custom zones are typically setup within the user's profile.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]

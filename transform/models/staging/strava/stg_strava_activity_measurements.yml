@@ -1,8 +1,0 @@
-models:
-  - name: stg_strava_activity_measurements
-    description: "One row per activity per measurement type (heartrate, power, pace)."
-    columns:
-      - name: activity_measurement_id
-        tests:
-          - unique
-          - not_null
