@@ -17,7 +17,8 @@ with zone_types as (
         , zones.min
         , zones.max
         , zones.zone_seconds
-        , zones.zone_index
+        /* _dlt_list_idx is 0 indexed, but zone_index should be 1 indexed */
+        , zones._dlt_list_idx + 1 as zone_index
         , 'Z' || zone_index as zone_name
         , zone_types.is_sensor_based
         , zone_types.has_custom_zone_set

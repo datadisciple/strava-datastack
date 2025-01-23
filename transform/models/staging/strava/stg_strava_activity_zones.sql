@@ -13,7 +13,7 @@ with source as (
         , max__v_double as pace_max
         , time
         , _dlt_parent_id as zone_type_id
-        , _dlt_list_idx as zone_index
+        , _dlt_list_idx
         , _dlt_root_id
         , _dlt_parent_id
         , _dlt_id
@@ -28,7 +28,7 @@ with source as (
         , coalesce(max, pace_max) as max
         , time as zone_seconds
         , zone_type_id
-        , zone_index
+        , _dlt_list_idx
         , _dlt_root_id
         , _dlt_parent_id
         , _dlt_id

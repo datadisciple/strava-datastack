@@ -11,6 +11,19 @@ models:
         tests:
           - unique
           - not_null
+
+      - name: zone_index
+        description: >
+          Details the specific zone (e.g. 1, 2, 3, etc.)
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "!= 0"
+          - dbt_expectations.expect_column_values_to_be_increasing:
+              sort_column: zone_index
+              strictly: true
+              group_by: [activity_zone_id]
+              step: 1
       
       - name: zone_name
         description: >
