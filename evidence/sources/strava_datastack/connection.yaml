@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: strava_datastack
+type: motherduck
+options:
+  database: strava_datastack

@@ -1,0 +1,1 @@
+select * from analytics.fct_activities
