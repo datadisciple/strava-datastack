@@ -1,0 +1,10 @@
+[
+	{
+		"action": "remove",
+		"files": [
+			".devcontainer",
+			".github",
+			"scripts"
+		]
+	}
+]
